@@ -12,16 +12,18 @@ function removeColumn() {
       row.deleteCell(row.cells.length - 1);
     }
 
+    if (row.cells.length === 2) {
+      buttonRemoveColumn.setAttribute('disabled', 'true');
+    } else {
+      buttonRemoveColumn.removeAttribute('disabled');
+    }
+
     if (row.cells.length < 10) {
       buttonAppendColumn.removeAttribute('disabled');
     }
-
-    if (row.cells.length === 2) {
-      buttonRemoveColumn.setAttribute('disabled', 'true');
-    }
-
-    checkMaxLength(buttonAppendColumn, row.cells.length);
   });
+
+  checkMaxLength(buttonAppendColumn, table.rows[0].cells.length);
 }
 
 function appendColumn() {
@@ -29,13 +31,13 @@ function appendColumn() {
     if (row.cells.length < 10) {
       row.insertCell();
     }
-
-    if (row.cells.length > 2) {
-      buttonRemoveColumn.removeAttribute('disabled');
-    }
-
-    checkMaxLength(buttonAppendColumn, row.cells.length);
   });
+
+  if (table.rows[0].cells.length > 2) {
+    buttonRemoveColumn.removeAttribute('disabled');
+  }
+
+  checkMaxLength(buttonAppendColumn, table.rows[0].cells.length);
 }
 
 function removeRow() {
@@ -43,12 +45,14 @@ function removeRow() {
     table.deleteRow(table.rows.length - 1);
   }
 
-  if (table.rows.length < 10) {
-    buttonAppendRow.removeAttribute('disabled');
-  }
-
   if (table.rows.length === 2) {
     buttonRemoveRow.setAttribute('disabled', 'true');
+  } else {
+    buttonRemoveRow.removeAttribute('disabled');
+  }
+
+  if (table.rows.length < 10) {
+    buttonAppendRow.removeAttribute('disabled');
   }
 
   checkMaxLength(buttonAppendRow, table.rows.length);
